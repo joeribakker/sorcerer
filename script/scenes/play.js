@@ -9,9 +9,11 @@ import { createViewport } from './../library/core/module/Viewport.js';
 import { createRoom } from './../library/core/module/Room.js';
 
 import GreenKnight from './../gameObjects/actors/GreenKnight.js';
+import Cursor from './../gameObjects/Cursor.js';
 
 import { updateActionTicks } from './../eventHandlers/updateActionTicks.js';
 import { updatePositionOfGameObjects } from './../eventHandlers/updatePositionOfGameObjects.js';
+import { updateMouseGridPositions } from './../eventHandlers/updateMouseGridPositions.js';
 import { makeAttemptActionForKey } from './../eventHandlers/attemptActionForKey.js'
 import { makeGameObjectDies } from './../eventHandlers/gameObjectDies.js';
 import { doDeathRattle } from './../eventHandlers/doDeathRattle.js';
@@ -26,6 +28,7 @@ import { makeDealDamage } from './../eventHandlers/dealDamage.js';
 import { makeTakeDamage } from './../eventHandlers/takeDamage.js';
 import { makeCheckForDeath } from './../eventHandlers/checkForDeath.js';
 import { calculateEquipmentDamage } from './../eventHandlers/calculateEquipmentDamage.js';
+import { makeEmitMouseGridDown } from './../eventHandlers/emitMouseGridDown.js';
 
 export default function createPlayScene(game) {
 	return {
@@ -50,6 +53,8 @@ export default function createPlayScene(game) {
 			doDeathRattle
 		],
 		log: [ log ],
+		mouseMove: updateMouseGridPositions,
+		mouseDown: makeEmitMouseGridDown(game.emitEvent),
 	}
 }
 
@@ -82,6 +87,11 @@ function initializePlayScene(state) {
 			height: 176,
 		},
 	});
+
+	// Create cursor
+	let cursor = new Cursor();
+	state = addGameObject(cursor)(state);
+	state = addGameObjectToRoom(room.id, cursor.id)(state);
 
 	state = addViewport(viewport)(state);
 	state = addViewportToRoom(room.id, viewport.id)(state);

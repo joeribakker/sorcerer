@@ -1,5 +1,20 @@
 export default [
 	{
+		name: 'cursor',
+		filepath: '/assets/images/cursor.png',
+		frameSize: {
+			width: 16,
+			height: 16,
+		},
+		frameStart: 0,
+		frameTotal: 1,
+		frames: [0],
+		offset: {
+			x: 0,
+			y: 0,
+		},
+	},
+	{
 		name: 'greenknight',
 		filepath: '/assets/images/greenknight.png',
 		frameSize: {

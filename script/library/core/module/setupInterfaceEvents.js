@@ -1,12 +1,23 @@
 import {
 	addActiveKeyboardKey,
+	addActiveMouseButton,
 	removeActiveKeyboardKey,
+	removeActiveMouseButton,
 	resetActiveKeyboardKeys,
+	resetActiveMouseButtons,
 } from './../model/game.js';
 
 import {
 	getActiveViewportsInCurrentRoom
 } from './../model/rooms.js';
+
+const MOUSE_BUTTON_NAMES = {
+	0: 'left',
+	1: 'middle',
+	2: 'right',
+	3: 'back',
+	4: 'forward',
+}
 
 export default function setupInterfaceEvents(game) {
 	window.addEventListener('mousemove', (event) => {
@@ -39,6 +50,29 @@ export default function setupInterfaceEvents(game) {
 				mouseViewportPosition: positionInViewport,
 			},
 		});
+
+		game.store.setState(game.emitEvent('mouseMove', game.store.getState(), {
+			position: positionInGame,
+			viewportPosition: positionInViewport,
+		}));
+	});
+
+	window.addEventListener('click', (event) => {
+		game.store.setState(game.emitEvent('mouseClick', game.store.getState(), event));
+	});
+
+	window.addEventListener('mousedown', (event) => {
+		const button = MOUSE_BUTTON_NAMES[event.button];
+
+		game.store.dispatch(addActiveMouseButton(button));
+		game.store.setState(game.emitEvent('mouseDown', game.store.getState(), button));
+	});
+
+	window.addEventListener('mouseup', (event) => {
+		const button = MOUSE_BUTTON_NAMES[event.button];
+
+		game.store.dispatch(removeActiveMouseButton(button));
+		game.store.setState(game.emitEvent('mouseUp', game.store.getState(), event));
 	});
 
 	window.addEventListener('keydown', (event) => {
@@ -59,11 +93,18 @@ export default function setupInterfaceEvents(game) {
 
 	window.addEventListener('blur', () => {
 		game.store.dispatch(resetActiveKeyboardKeys());
+		game.store.dispatch(resetActiveMouseButtons());
 	});
 
 	game.addEventHandler('update', (state) => {
 		return state.game.activeKeyboardKeys.reduce((newState, pressedKey) => {
 			return game.emitEvent('keyPressed', newState, pressedKey);
+		}, state);
+	});
+
+	game.addEventHandler('update', (state) => {
+		return state.game.activeMouseButtons.reduce((newState, pressedMouseButton) => {
+			return game.emitEvent('mousePressed', newState, pressedMouseButton);
 		}, state);
 	});
 }

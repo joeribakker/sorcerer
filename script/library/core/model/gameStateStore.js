@@ -5,6 +5,7 @@ export const INITIAL_STATE = {
 		name: '',
 		currentRoomId: null,
 		activeKeyboardKeys: [],
+		activeMouseButtons: [],
 		mousePosition: {x: 0, y: 0},
 		mouseViewportPosition: {x: 0, y: 0},
 	},

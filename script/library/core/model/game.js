@@ -56,6 +56,49 @@ export const removeActiveKeyboardKey = keyToRemove => state => ({
 	},
 });
 
+
+export const resetActiveMouseButtons = () => state => ({
+	...state,
+	game: {
+		...state.game,
+		activeMouseButtons: [],
+	}
+});
+
+export const addActiveMouseButton = buttonToAdd => state => {
+	if (state.game.activeMouseButtons.includes(buttonToAdd)) {
+		return state;
+	}
+
+	return {
+		...state,
+		game: {
+			...state.game,
+			activeMouseButtons: [
+				...state.game.activeMouseButtons,
+				buttonToAdd,
+			],
+		},
+	};
+};
+
+export const removeActiveMouseButton = buttonToRemove => state => ({
+	...state,
+	game: {
+		...state.game,
+		activeMouseButtons: state.game.activeMouseButtons.reduce((buttonsWithoutButtonToRemove, pressedButton) => {
+			if (buttonToRemove === pressedButton) {
+				return buttonsWithoutButtonToRemove;
+			}
+
+			return [
+				...buttonsWithoutButtonToRemove,
+				pressedButton,
+			];
+		}, []),
+	},
+});
+
 export const getGame = (state) => {
 	return state.game;
 }

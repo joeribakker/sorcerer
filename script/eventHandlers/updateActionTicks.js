@@ -2,10 +2,10 @@ import {
 	getGameObjectsWithComponentNames,
 	updateComponentOfGameObject,
 } from './../library/core/model/gameObjects.js';
-import { findGameObjectsFromState } from './../library/core/module/GameObject.js';
+import { findGameObjects } from './../library/core/module/GameObject.js';
 
 export const updateActionTicks = (state) => {
-	let gameObjects = findGameObjectsFromState(state, ['actor', 'actionTicker']).filter((gameObject) => {
+	let gameObjects = findGameObjects(state, ['actor', 'actionTicker']).filter((gameObject) => {
 		return !gameObject.components.isDead;
 	});
 

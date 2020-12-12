@@ -1,11 +1,11 @@
-import {findGameObjectsFromState} from './../library/core/module/GameObject.js';
+import {findGameObjects} from './../library/core/module/GameObject.js';
 
 export const makeAttemptActionForKey = (emitEvent) => (state, key) => {
 	return attemptActionForKey(state, key, emitEvent);
 }
 
 export const attemptActionForKey = (state, key, emitEvent) => {
-	return findGameObjectsFromState(state, ['actor', 'player', 'canAct', 'positionInLevel']).filter((gameObject) => {
+	return findGameObjects(state, ['actor', 'player', 'canAct', 'positionInLevel']).filter((gameObject) => {
 		return gameObject.components.player
 			&& !gameObject.components.isDead;
 	}).reduce((newState, gameObject) => {

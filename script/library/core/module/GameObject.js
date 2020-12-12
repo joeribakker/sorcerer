@@ -7,7 +7,7 @@ export function createGameObject(components = {}) {
 	});
 }
 
-export function findGameObjectsFromState(state, requiredComponentNames) {
+export function findGameObjects(state, requiredComponentNames) {
 	let gameObjects = getGameObjectsInCurrentRoom(state);
 
 	return gameObjects.filter((gameObject) => {

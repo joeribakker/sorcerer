@@ -7,6 +7,7 @@ import { appendState } from './library/core/model/general.js';
 import updatePositioningOfViewports from './library/core/eventHandlers/updatePositioningOfViewports.js';
 import animateGameObjects from './library/core/eventHandlers/animateGameObjects.js';
 import drawFrame from './library/core/eventHandlers/drawFrame.js';
+import renderDebugState from './utility/renderDebugState.js';
 
 let game = new Game(store, 'Sorcerer', document.querySelector('.canvas__sorcerer'), { scale: 3 });
 
@@ -14,6 +15,11 @@ game.addEventHandler('init', initializeGame);
 game.addEventHandler('beforeDraw', updatePositioningOfViewports);
 game.addEventHandler('beforeDraw', animateGameObjects);
 game.addEventHandler('draw', drawFrame);
+game.addEventHandler('update', (state) => {
+	renderDebugState(state.game);
+
+	return state;
+})
 setupInterfaceEvents(game);
 
 game.addScene('play', createPlayScene(game));

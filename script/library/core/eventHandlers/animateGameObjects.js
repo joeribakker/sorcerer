@@ -1,11 +1,11 @@
 import { getSpriteWithId } from './../model/sprites.js';
 import { updateComponentOfGameObject } from './../model/gameObjects.js';
-import { findGameObjectsFromState } from './../module/GameObject.js';
+import { findGameObjects } from './../module/GameObject.js';
 
 const timeOfAnimationStart = new Map();
 
 export default function animateGameObjects(state, currentTime) {
-	let gameObjectsWithSprite = findGameObjectsFromState(state, ['sprite']);
+	let gameObjectsWithSprite = findGameObjects(state, ['sprite']);
 
 	return gameObjectsWithSprite.reduce((newState, gameObject) => {
 		let {sprite} = gameObject.components;

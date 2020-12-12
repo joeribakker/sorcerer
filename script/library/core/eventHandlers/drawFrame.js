@@ -2,11 +2,11 @@ import { getCurrentRoom, getActiveViewportsInRoomWithId } from './../model/rooms
 import { getSpriteWithId } from './../model/sprites.js';
 import { getSpriteFrameWithId } from './../model/spriteFrames.js';
 import { getImageFromFilePath } from './../module/SpriteFrame.js';
-import { findGameObjectsFromState } from './../module/GameObject.js';
+import { findGameObjects } from './../module/GameObject.js';
 
 export default function drawFrame(state, context) {
 	let viewports = getActiveViewportsInRoomWithId(state, getCurrentRoom(state).id);
-	let gameObjectsToDraw = findGameObjectsFromState(state, ['sprite', 'position']).filter((gameObject) => {
+	let gameObjectsToDraw = findGameObjects(state, ['sprite', 'position']).filter((gameObject) => {
 		return gameObject.components.isVisible;
 	});
 
